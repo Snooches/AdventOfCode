@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Utilities;
+﻿using Utilities;
 using Utilities.Interfaces;
 
 namespace AoC2018.Day03;
