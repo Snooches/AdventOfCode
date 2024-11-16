@@ -15,7 +15,8 @@ internal class Solver(IInputDataConverter<string> inputDataConverter, IFileReade
 
 		for (char c = 'A'; c <= 'Z'; c++)
 		{
-			SolutionValueB = Math.Min(SolutionValueB ?? int.MaxValue, Collapse(inputData.Replace($"{c}", "").Replace($"{(char)(c + 32)}", "")).Length);
+			string reducedPolymer = String.Join(String.Empty, inputData.Where(x => x != c && x != (c + 32)));
+			SolutionValueB = Math.Min(SolutionValueB ?? int.MaxValue, Collapse(reducedPolymer).Length);
 		}
 	}
 
