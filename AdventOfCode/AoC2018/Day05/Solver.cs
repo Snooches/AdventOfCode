@@ -4,7 +4,7 @@ using Utilities.Interfaces;
 namespace AoC2018.Day05;
 
 internal class Solver(IInputDataConverter<string> inputDataConverter, IFileReader fileReader)
-			 : AbstractSolver<string, long?, long?>(inputDataConverter, fileReader)
+			 : AbstractSolver<string, long?, int?>(inputDataConverter, fileReader)
 {
 	protected override string SolutionTextA => $"SolutionA is: {SolutionValueA}";
 	protected override string SolutionTextB => $"SolutionB is: {SolutionValueB}";
@@ -12,6 +12,11 @@ internal class Solver(IInputDataConverter<string> inputDataConverter, IFileReade
 	protected override void SolveImplemented()
 	{
 		SolutionValueA = Collapse(inputData).Length;
+
+		for (char c = 'A'; c <= 'Z'; c++)
+		{
+			SolutionValueB = Math.Min(SolutionValueB ?? int.MaxValue, Collapse(inputData.Replace($"{c}", "").Replace($"{(char)(c + 32)}", "")).Length);
+		}
 	}
 
 	private static string Collapse(string polymer)
