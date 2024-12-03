@@ -23,6 +23,6 @@ internal class Solver(IInputDataConverter<(List<int>, List<int>)> inputDataConve
 			else
 				histogram[value] = 1;
 		foreach (int value in inputData.Item1)
-			SolutionValueB += value * histogram.GetValueOrDefault(value); ;
+			SolutionValueB += value * histogram.GetValueOrDefault(value);
 	}
 }
