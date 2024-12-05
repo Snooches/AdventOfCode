@@ -13,7 +13,7 @@ while (input != "exit")
 	IEnumerable<ISolver> solvers;
 	if (Int32.TryParse(input, out int selectedDay) && selectedDay >= 1 && selectedDay <= 25)
 	{
-		solvers = GetSolver(new List<int> { selectedDay });
+		solvers = GetSolver([selectedDay]);
 	}
 	else
 	{
@@ -67,7 +67,7 @@ static IEnumerable<ISolver> GetSolver(IEnumerable<int> input)
 
 		Type? solverType = Type.GetType($"AoC{AoCYear}.Day{day:D2}.Solver");
 		ConstructorInfo? solverConstructor = solverType?.GetConstructor([converterType!, typeof(IFileReader)]);
-		Object? solver = solverConstructor?.Invoke(new object[] { typedConverter, new FileReader($"Day{day:D2}/InputData.txt") });
+		Object? solver = solverConstructor?.Invoke([typedConverter, new FileReader($"Day{day:D2}/InputData.txt")]);
 		if (solver is ISolver typedSolver)
 		{
 			solvers.Add(typedSolver);
