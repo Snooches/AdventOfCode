@@ -7,8 +7,8 @@ namespace AoC2024.Day03;
 internal partial class Solver(IInputDataConverter<IEnumerable<string>> inputDataConverter, IFileReader fileReader)
 			 : AbstractSolver<IEnumerable<string>, long?, long?>(inputDataConverter, fileReader)
 {
-	protected override string SolutionTextA => $"SolutionA is: {SolutionValueA}";
-	protected override string SolutionTextB => $"SolutionB is: {SolutionValueB}";
+	protected override string SolutionTextA => $"The sum of all products is: {SolutionValueA}";
+	protected override string SolutionTextB => $"The sum of all products when considering control instructions is: {SolutionValueB}";
 
 	protected override void SolveImplemented()
 	{
