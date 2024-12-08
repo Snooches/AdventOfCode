@@ -1,12 +1,13 @@
-﻿using Utilities.Interfaces;
+﻿using Utilities;
+using Utilities.Interfaces;
 
 namespace AoC2024.Day08;
 
-internal class InputDataConverter : IInputDataConverter<(IEnumerable<List<(int,int)>>,int,int)>
+internal class InputDataConverter : IInputDataConverter<(IEnumerable<List<Point>>,int,int)>
 {
-	public (IEnumerable<List<(int,int)>>,int,int) ConvertInputData(IFileReader fileReader)
+	public (IEnumerable<List<Point>>,int,int) ConvertInputData(IFileReader fileReader)
 	{
-		Dictionary<char, List<(int, int)>> antennas = [];
+		Dictionary<char, List<Point>> antennas = [];
 		int y = 0;
 		IEnumerable<string> lines = fileReader.ReadLines();
 		foreach (string line in lines)
@@ -15,10 +16,10 @@ internal class InputDataConverter : IInputDataConverter<(IEnumerable<List<(int,i
 			foreach (char space in line)
 			{
 				if (space != '.')
-					if (antennas.TryGetValue(space, out List<(int, int)>? positions))
-						positions.Add((x, y));
+					if (antennas.TryGetValue(space, out List<Point>? positions))
+						positions.Add(new(x, y));
 					else
-						antennas[space] = [(x, y)];
+						antennas[space] = [new(x, y)];
 				x++;
 			}
 			y++;
