@@ -44,7 +44,7 @@ internal class Solver(IInputDataConverter<((int,int),Dictionary<(int,int),State>
 		return (-currentPosition.Y, currentPosition.X);
 	}
 
-	private Boolean CheckForLoop(Dictionary<(int,int), State> grid, (int X, int Y) currentPosition, (int XDif, int YDif) currentDirection)
+	private static Boolean CheckForLoop(Dictionary<(int,int), State> grid, (int X, int Y) currentPosition, (int XDif, int YDif) currentDirection)
 	{
 		HashSet<((int, int), (int, int))> visited = [];
 		(int,int) newObstacle = (currentPosition.X + currentDirection.XDif,currentPosition.Y + currentDirection.YDif);
