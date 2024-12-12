@@ -73,7 +73,6 @@ internal class Solver(IInputDataConverter<IEnumerable<int>> inputDataConverter, 
 		int blockIndex = blockList.Count - 1;
 		while (blockIndex >= 0)
 		{
-			//Console.WriteLine(String.Join("", blockList.Select(x => String.Join("", Enumerable.Repeat($"{x.Id}",x.Length).ToList()))));
 			bool blockMoved = false;
 			int spaceIndex = 1;
 			while(spaceIndex < blockIndex)
