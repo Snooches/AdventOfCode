@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Utilities.Interfaces;
+﻿using Utilities.Interfaces;
 
 namespace Utilities
 {
@@ -20,6 +14,7 @@ namespace Utilities
 
 		protected virtual String SolutionTextB => SolutionValueB?.ToString() ?? String.Empty;
 		public string SolutionB => solved ? this.SolutionTextB : "Puzzle has not been solved yet.";
+
 		protected abstract void SolveImplemented();
 
 		public void Solve()
@@ -28,8 +23,8 @@ namespace Utilities
 			solved = true;
 		}
 
-        protected AbstractSolver(IInputDataConverter<InputType> inputDataConverter, IFileReader fileReader)
-		{ 
+		protected AbstractSolver(IInputDataConverter<InputType> inputDataConverter, IFileReader fileReader)
+		{
 			this.inputData = inputDataConverter.ConvertInputData(fileReader);
 			this.solved = false;
 		}
