@@ -11,32 +11,23 @@ internal class Solver(IInputDataConverter<IEnumerable<ClawMachine>> inputDataCon
 
 	protected override void SolveImplemented()
 	{
-		SolutionValueA = inputData.Sum(LowestTokenCost);
+		SolutionValueA = inputData.Sum(x=>LowestTokenCost(x));
+		SolutionValueB = inputData.Sum(x=>LowestTokenCost(x,10000000000000));
 	}
 
-	private static int LowestTokenCost(ClawMachine machine)
+	private static long LowestTokenCost(ClawMachine machine, long prizeOffset = 0)
 	{
-		float directionA = machine.ButtonA.X / (float)machine.ButtonA.Y;
-		float directionB = machine.ButtonB.X / (float)machine.ButtonB.Y;
-		float targetDirection = machine.Prize.X / (float)machine.Prize.Y;
-		int cost = 0;
-		Point currentTarget = new(0, 0);
-		float currentDirection = (directionA + directionB)/2;
-		while (currentTarget.X < machine.Prize.X && currentTarget.Y < machine.Prize.Y)
-		{
-			if ((directionA > targetDirection && currentDirection < targetDirection)
-					||(directionA < targetDirection && currentDirection > targetDirection))
-			{
-				currentTarget += machine.ButtonA;
-				cost += 3;
-			}
-			else
-			{
-				currentTarget += machine.ButtonB;
-				cost += 1;
-			}
-			currentDirection = currentTarget.X / (float)currentTarget.Y;
-		}
-		return currentTarget == machine.Prize ? cost : 0;
+		decimal b = Math.Round(
+			((machine.Prize.Y + prizeOffset) - (machine.Prize.X + prizeOffset) * machine.ButtonA.Y / (decimal)machine.ButtonA.X) /
+			(machine.ButtonB.Y - machine.ButtonB.X * machine.ButtonA.Y / (decimal)machine.ButtonA.X));
+								
+		decimal a = Math.Round(((machine.Prize.X + prizeOffset) - b * machine.ButtonB.X) / machine.ButtonA.X);
+
+		decimal cost = a * 3 + b;
+
+		if (machine.ButtonA.X * a + machine.ButtonB.X * b == machine.Prize.X + prizeOffset &&
+				machine.ButtonA.Y * a + machine.ButtonB.Y * b == machine.Prize.Y + prizeOffset)
+			return (long)cost;
+		return 0;
 	}
 }
