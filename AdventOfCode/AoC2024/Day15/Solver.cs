@@ -3,17 +3,17 @@ using Utilities.Interfaces;
 
 namespace AoC2024.Day15;
 
-internal class Solver(IInputDataConverter<(Dictionary<Point, StorageContent>, IEnumerable<Vector>)> inputDataConverter, IFileReader fileReader)
-			 : AbstractSolver<(Dictionary<Point, StorageContent> Storage, IEnumerable<Vector> Moves), long?, long?>(inputDataConverter, fileReader)
+internal class Solver(IInputDataConverter<(Dictionary<Point<int>, StorageContent>, IEnumerable<Vector<int>>)> inputDataConverter, IFileReader fileReader)
+			 : AbstractSolver<(Dictionary<Point<int>, StorageContent> Storage, IEnumerable<Vector<int>> Moves), long?, long?>(inputDataConverter, fileReader)
 {
 	protected override string SolutionTextA => $"The total sum of al box GPS values is: {SolutionValueA}";
 	protected override string SolutionTextB => $"The total sum of all boxes GPS valuesin the expanded storage is: {SolutionValueB}";
 
 	protected override void SolveImplemented()
 	{
-		Dictionary<Point, StorageContent> expandedStorage = ExpandStorage(inputData.Storage);
-		Point roboLocation = inputData.Storage.First(x => x.Value == StorageContent.Robot).Key;
-		foreach (Vector move in inputData.Moves)
+		Dictionary<Point<int>, StorageContent> expandedStorage = ExpandStorage(inputData.Storage);
+		Point<int> roboLocation = inputData.Storage.First(x => x.Value == StorageContent.Robot).Key;
+		foreach (Vector<int> move in inputData.Moves)
 		{
 			if (EnactMove(inputData.Storage, roboLocation, move))
 				roboLocation += move;
@@ -21,7 +21,7 @@ internal class Solver(IInputDataConverter<(Dictionary<Point, StorageContent>, IE
 		SolutionValueA = CalculateGPS(inputData.Storage);
 
 		roboLocation = expandedStorage.First(x => x.Value == StorageContent.Robot).Key;
-		foreach (Vector move in inputData.Moves)
+		foreach (Vector<int> move in inputData.Moves)
 		{
 			if (EnactMove(expandedStorage, roboLocation, move))
 				roboLocation += move;
@@ -29,9 +29,9 @@ internal class Solver(IInputDataConverter<(Dictionary<Point, StorageContent>, IE
 		SolutionValueB = CalculateGPS(expandedStorage);
 	}
 
-	private static bool EnactMove(Dictionary<Point, StorageContent> storage, Point location, Vector move, bool simulate = false)
+	private static bool EnactMove(Dictionary<Point<int>, StorageContent> storage, Point<int> location, Vector<int> move, bool simulate = false)
 	{
-		Point target = location + move;
+		Point<int> target = location + move;
 		switch (storage[target])
 		{
 			case StorageContent.Wall:
@@ -93,17 +93,17 @@ internal class Solver(IInputDataConverter<(Dictionary<Point, StorageContent>, IE
 		}
 	}
 
-	private static int CalculateGPS(Dictionary<Point, StorageContent> storage)
+	private static int CalculateGPS(Dictionary<Point<int>, StorageContent> storage)
 	{
 		return storage
 			.Where(x => x.Value is StorageContent.Box or StorageContent.LeftBox)
 			.Sum(x => x.Key.X + x.Key.Y * 100);
 	}
 
-	private static Dictionary<Point, StorageContent> ExpandStorage(Dictionary<Point, StorageContent> storage)
+	private static Dictionary<Point<int>, StorageContent> ExpandStorage(Dictionary<Point<int>, StorageContent> storage)
 	{
-		Dictionary<Point, StorageContent> result = [];
-		foreach (KeyValuePair<Point, StorageContent> kvp in storage)
+		Dictionary<Point<int>, StorageContent> result = [];
+		foreach (KeyValuePair<Point<int>, StorageContent> kvp in storage)
 		{
 			switch (kvp.Value)
 			{

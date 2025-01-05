@@ -1,7 +1,13 @@
 ﻿namespace Utilities;
-public record Vector(int X, int Y){
 
-	public static Vector operator -(Vector v) => new(-v.X, -v.Y);
+using System.Numerics;
 
-	public static Vector operator *(Vector v, int m) => new(v.X * m, v.Y * m);
+public record Vector<T>(T X, T Y) where T: INumber<T>
+{
+	public static Vector<T> operator -(Vector<T> v) => new(-v.X, -v.Y);
+
+	public static Vector<T> operator *(Vector<T> v, T m) => new(v.X * m, v.Y * m);
 }
+
+// [Obsolete("Use generic Type instead.")]
+// public record Vector(int X, int Y) : Vector<int>(X,Y) { }

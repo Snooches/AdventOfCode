@@ -3,27 +3,27 @@ using Utilities.Interfaces;
 
 namespace AoC2024.Day12;
 
-internal class Solver(IInputDataConverter<Dictionary<Point, char>> inputDataConverter, IFileReader fileReader)
-	: AbstractSolver<Dictionary<Point, char>, long?, long?>(inputDataConverter, fileReader)
+internal class Solver(IInputDataConverter<Dictionary<Point<int>, char>> inputDataConverter, IFileReader fileReader)
+	: AbstractSolver<Dictionary<Point<int>, char>, long?, long?>(inputDataConverter, fileReader)
 {
 	protected override string SolutionTextA => $"SolutionA is: {SolutionValueA}";
 	protected override string SolutionTextB => $"SolutionB is: {SolutionValueB}";
 
-	private List<Vector> directions = [new(0, 1), new(1, 0), new(0, -1), new(-1, 0)];
+	private List<Vector<int>> directions = [new(0, 1), new(1, 0), new(0, -1), new(-1, 0)];
 
 	protected override void SolveImplemented()
 	{
-		HashSet<Point> visited = [];
-		HashSet<HashSet<Point>> areas = [];
+		HashSet<Point<int>> visited = [];
+		HashSet<HashSet<Point<int>>> areas = [];
 
 		int x = 0, y = 0;
-		while (inputData.ContainsKey(new Point(x, y)))
+		while (inputData.ContainsKey(new Point<int>(x, y)))
 		{
-			while (inputData.ContainsKey(new Point(x, y)))
+			while (inputData.ContainsKey(new Point<int>(x, y)))
 			{
-				if (!visited.Contains(new Point(x, y)))
+				if (!visited.Contains(new Point<int>(x, y)))
 				{
-					HashSet<Point> area = GetArea(x, y);
+					HashSet<Point<int>> area = GetArea(x, y);
 					areas.Add(area);
 					visited.UnionWith(area);
 				}
@@ -36,17 +36,17 @@ internal class Solver(IInputDataConverter<Dictionary<Point, char>> inputDataConv
 		SolutionValueB = areas.Sum(GetFenceValueComplex);
 	}
 
-	private long GetFenceValueSimple(HashSet<Point> area)
+	private long GetFenceValueSimple(HashSet<Point<int>> area)
 	{
 		return area.Sum(point => directions.Count(direction => !area.Contains(point + direction))) * area.Count;
 	}
 
-	private long GetFenceValueComplex(HashSet<Point> area)
+	private long GetFenceValueComplex(HashSet<Point<int>> area)
 	{
 		int corners = 0;
-		HashSet<Point> neighbourCollection = [];
+		HashSet<Point<int>> neighbourCollection = [];
 		
-		foreach(Point plot in area)
+		foreach(Point<int> plot in area)
 			for (int i = 1; i <= 4; i++)
 			{
 				if(!area.Contains(plot + directions[i - 1]))
@@ -56,7 +56,7 @@ internal class Solver(IInputDataConverter<Dictionary<Point, char>> inputDataConv
 					corners++;
 			}
 		
-		foreach (Point outsideNeighbour in neighbourCollection)
+		foreach (Point<int> outsideNeighbour in neighbourCollection)
 			for (int i = 1; i <= 4; i++)
 				if(area.Contains(outsideNeighbour+directions[i-1]) && 
 					 area.Contains(outsideNeighbour+directions[i%4]) && 
@@ -66,16 +66,16 @@ internal class Solver(IInputDataConverter<Dictionary<Point, char>> inputDataConv
 		return corners * area.Count; //number of corners is equal to number of straight edges
 	}
 
-	private HashSet<Point> GetArea(int x, int y)
+	private HashSet<Point<int>> GetArea(int x, int y)
 	{
-		HashSet<Point> area = [];
-		Queue<Point> toCheck = [];
-		toCheck.Enqueue(new Point(x, y));
+		HashSet<Point<int>> area = [];
+		Queue<Point<int>> toCheck = [];
+		toCheck.Enqueue(new Point<int>(x, y));
 		while (toCheck.Count > 0)
 		{
-			Point p = toCheck.Dequeue();
+			Point<int> p = toCheck.Dequeue();
 			area.Add(p);
-			foreach (Vector direction in directions)
+			foreach (Vector<int> direction in directions)
 				if (inputData.TryGetValue(p + direction, out char neighbour) && neighbour == inputData[p] && !area.Contains(p + direction) &&
 						!toCheck.Contains(p + direction))
 					toCheck.Enqueue(p + direction);

@@ -4,7 +4,7 @@ using Utilities;
 
 public record ClawMachine
 {
-	public required Vector ButtonA { get; init; }
-	public required Vector ButtonB { get; init; }
-	public required Point Prize { get; init; }
+	public required Vector<int> ButtonA { get; init; }
+	public required Vector<int> ButtonB { get; init; }
+	public required Point<long> Prize { get; init; }
 }

@@ -3,12 +3,12 @@ using Utilities.Interfaces;
 
 namespace AoC2024.Day15;
 
-internal class InputDataConverter : IInputDataConverter<(Dictionary<Point,StorageContent>,IEnumerable<Vector>)>
+internal class InputDataConverter : IInputDataConverter<(Dictionary<Point<int>,StorageContent>,IEnumerable<Vector<int>>)>
 {
-	public (Dictionary<Point,StorageContent>,IEnumerable<Vector>) ConvertInputData(IFileReader fileReader)
+	public (Dictionary<Point<int>,StorageContent>,IEnumerable<Vector<int>>) ConvertInputData(IFileReader fileReader)
 	{
-		Dictionary<Point, StorageContent> storageMap = [];
-		List<Vector> movements = [];
+		Dictionary<Point<int>, StorageContent> storageMap = [];
+		List<Vector<int>> movements = [];
 
 		int y = 0;
 		foreach (string line in fileReader.ReadLines())
@@ -28,7 +28,7 @@ internal class InputDataConverter : IInputDataConverter<(Dictionary<Point,Storag
 						'@' => StorageContent.Robot,
 						_ => StorageContent.Empty
 					};
-					storageMap.Add(new Point(x,y), content);
+					storageMap.Add(new Point<int>(x,y), content);
 					x++;
 				}
 				y++;
@@ -37,12 +37,12 @@ internal class InputDataConverter : IInputDataConverter<(Dictionary<Point,Storag
 			{
 				foreach (char c in line)
 				{
-					Vector direction = c switch
+					Vector<int> direction = c switch
 					{
-						'<' => new Vector(-1, 0),
-						'>' => new Vector(1, 0),
-						'^' => new Vector(0, -1),
-						_ => new Vector(0, 1)
+						'<' => new Vector<int>(-1, 0),
+						'>' => new Vector<int>(1, 0),
+						'^' => new Vector<int>(0, -1),
+						_ => new Vector<int>(0, 1)
 					};
 					movements.Add(direction);
 				}

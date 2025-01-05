@@ -3,11 +3,11 @@ using Utilities.Interfaces;
 
 namespace AoC2024.Day10;
 
-internal class InputDataConverter : IInputDataConverter<Dictionary<Point,byte>>
+internal class InputDataConverter : IInputDataConverter<Dictionary<Point<int>,byte>>
 {
-	public Dictionary<Point, byte> ConvertInputData(IFileReader fileReader)
+	public Dictionary<Point<int>, byte> ConvertInputData(IFileReader fileReader)
 	{
-		Dictionary<Point, byte> result = [];
+		Dictionary<Point<int>, byte> result = [];
 		int y = 0;
 		foreach (string line in fileReader.ReadLines())
 		{
